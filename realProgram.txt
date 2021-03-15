@@ -1,0 +1,50 @@
+.data
+	keypad_status: 0x901
+	keypad_data: 0x900
+	led: 0xb00
+	spoint: 0x100
+.code
+	ldi 7 0x100
+loop	ldi 0 0x900
+	ldi 1 0x901
+	ldi 2 0xb00
+	ld 3 1
+	ldi 4 0x1
+	and 4 4 3
+	jz loop
+	ld 3 0
+	ldi 1 0x000E
+	sub 1 1 3
+	ldi 0 0
+	ldi 1 1
+	jz mult
+	ldi 1 0x000F
+	sub 1 1 3
+	jz sum
+	add 1 5 5
+	add 5 5 5
+	add 5 5 5
+	add 5 5 5
+	add 5 1 5
+	add 5 5 3
+	st 2 5
+	jmp loop
+sum	call addit
+	jmp loop
+addit	add 6 6 5
+	ldi 5 0
+	st 2 6
+	ret
+multj	call mult
+	jmp loop	
+mult	add 0 0 6
+	sub 3 5 1
+	jz fin
+	ldi 3 1
+	add 1 1 3
+	jmp mult
+fin	ldi 1 0
+	add 6 1 0
+	ldi 5 0
+	st 2 6
+	ret
